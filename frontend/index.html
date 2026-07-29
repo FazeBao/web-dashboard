@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NHẬT THỐNG | Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="logo.png" alt="Nhật Thống" class="brand__logo">
+        <span class="brand__name">NHẬT THỐNG</span>
+      </div>
+
+      <nav class="menu">
+        <a href="#" class="menu__item menu__item--active">
+          <span class="menu__icon">◐</span> Dashboard
+        </a>
+
+        <div class="menu__group-label">ADDONS</div>
+        <a href="#" class="menu__item">
+          <span class="menu__icon">▦</span> Tables
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- HEADER -->
+      <header class="topbar">
+        <div class="search">
+          <input type="text" placeholder="Search for...">
+          <button class="search__btn" aria-label="Tìm kiếm">🔍</button>
+        </div>
+
+        <div class="topbar__actions">
+          <button class="badge-btn">
+            3+
+          </button>
+          <button class="badge-btn badge-btn--alt">
+            7
+          </button>
+          <div class="admin">
+            <span>Admin</span>
+            <span class="avatar">AD</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <!-- KPI CARDS (giữ nguyên, không đụng vào) -->
+        <section class="kpi-row">
+          <div class="kpi-card kpi-card--orange">
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">SẢN LƯỢNG THEO KẾ HOẠCH</span>
+              <span class="kpi-card__value">2051LSX-2607-082Xl75</span>
+            </div>
+            <span class="kpi-card__icon">📋</span>
+          </div>
+
+          <div class="kpi-card kpi-card--blue">
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">SẢN LƯỢNG HOÀN THÀNH</span>
+              <span class="kpi-card__value">0</span>
+            </div>
+            <span class="kpi-card__icon">📦</span>
+          </div>
+
+          <div class="kpi-card kpi-card--green">
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">SỐ MẪU SETUP &amp; LỖI</span>
+              <span class="kpi-card__value">0</span>
+            </div>
+            <span class="kpi-card__icon">🔧</span>
+          </div>
+
+          <div class="kpi-card kpi-card--teal">
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">SỰ CỐ</span>
+              <span class="kpi-card__value">Không có</span>
+            </div>
+            <span class="kpi-card__icon">📋</span>
+          </div>
+        </section>
+
+        <section class="kpi-row kpi-row--single">
+          <div class="kpi-card kpi-card--cyan">
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">PHÁT THẢI CO2 (TCO2/MWH)</span>
+              <span class="kpi-card__value" id="co2-value">0 tCO2/MWh</span>
+            </div>
+            <span class="kpi-card__icon">📋</span>
+          </div>
+        </section>
+
+        <!-- REAL-TIME SECTION: rút gọn còn 1 dữ liệu -->
+        <section class="panels">
+
+          <div class="panel panel--chart">
+            <div class="panel__header">
+              <h2>Biến động Cường độ Dòng điện</h2>
+              <button class="panel__menu">⋮</button>
+            </div>
+            <div class="panel__body">
+              <canvas id="currentChart" height="260"></canvas>
+            </div>
+          </div>
+
+          <div class="panel panel--gauge">
+            <div class="panel__header">
+              <h2>Chỉ số Hiện Tại</h2>
+              <button class="panel__menu">⋮</button>
+            </div>
+            <div class="panel__body panel__body--gauge">
+              <div class="gauge">
+                <svg viewBox="0 0 120 120" class="gauge__ring">
+                  <circle cx="60" cy="60" r="52" class="gauge__track"></circle>
+                  <circle cx="60" cy="60" r="52" class="gauge__progress" id="gauge-progress"></circle>
+                </svg>
+                <div class="gauge__info">
+                  <span class="gauge__name">Dòng điện</span>
+                  <span class="gauge__value" id="gauge-value">0.00A</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+      </main>
+
+      <footer class="footer">
+        Copyright © BKAI Technology Solutions
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
