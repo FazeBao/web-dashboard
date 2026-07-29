@@ -44,8 +44,8 @@ body {
 }
 
 .brand__logo {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 6px;
   background: #fff;
   object-fit: contain;
@@ -319,12 +319,12 @@ body {
 }
 
 .gauge__name {
-  font-size: 13px;
+  font-size: 18px;
   color: var(--text-muted);
 }
 
 .gauge__value {
-  font-size: 22px;
+  font-size: 35px;
   font-weight: 700;
   color: var(--sidebar-blue);
 }
