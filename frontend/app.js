@@ -148,3 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chart) chart.resize();
   });
 });
+
+
+// hành vi nút toggle sidebar
+const sidebar = document.querySelector('.sidebar');
+const toggleButton = document.querySelector('.topbar__toggle');
+
+toggleButton.addEventListener('click', () => {
+  sidebar.classList.toggle('sidebar--collapsed');
+});

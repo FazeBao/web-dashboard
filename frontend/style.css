@@ -36,6 +36,10 @@ body {
   padding: 20px 0;
 }
 
+.sidebar--collapsed {
+  display: none;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -137,6 +141,13 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
+}
+
+.topbar__toggle {
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .badge-btn {
@@ -355,6 +366,6 @@ body {
 }
 
 @media (max-width: 640px) {
-  .sidebar { display: none; }
+  /* .sidebar { display: none; } */
   .kpi-row { grid-template-columns: 1fr; }
 }
