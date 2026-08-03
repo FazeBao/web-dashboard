@@ -8,7 +8,7 @@
 
 // Địa chỉ API backend (main.py). Đổi thành IP/host thực tế của server Flask
 // nếu frontend được host ở nơi khác với backend.
-const API_BASE_URL = 'http://192.168.1.23:5000';
+const API_BASE_URL = 'http://127.0.0.1:5000';
 
 const MAX_POINTS = 15;      // số điểm tối đa hiển thị trên chart
 const POLL_INTERVAL = 3000; // 3 giây cập nhật 1 lần (chỉnh theo nhu cầu)
@@ -39,6 +39,7 @@ function initChart() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       animation: false,
       plugins: {
         legend: { display: false }
@@ -136,4 +137,14 @@ async function handleNewData_wrapper() {
 document.addEventListener('DOMContentLoaded', () => {
   initChart();
   startPolling();
+
+  // Ép Chart.js đo lại kích thước sau khi layout đã ổn định
+  setTimeout(() => {
+    if (chart) chart.resize();
+  }, 200);
+
+  // Đảm bảo chart luôn khớp khi cửa sổ đổi kích thước
+  window.addEventListener('resize', () => {
+    if (chart) chart.resize();
+  });
 });
