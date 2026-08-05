@@ -8,7 +8,11 @@
 
 // Địa chỉ API backend (main.py). Đổi thành IP/host thực tế của server Flask
 // nếu frontend được host ở nơi khác với backend.
-const API_BASE_URL = 'http://127.0.0.1:5000';
+
+// const API_BASE_URL = 'http://127.0.0.1:5000';
+
+// Thêm import ở đầu file (Tauri v2)
+//import { invoke } from '@tauri-apps/api/core';
 
 const MAX_POINTS = 15;      // số điểm tối đa hiển thị trên chart
 const POLL_INTERVAL = 3000; // 3 giây cập nhật 1 lần (chỉnh theo nhu cầu)
@@ -90,23 +94,31 @@ function updateCO2(value) {
    vẫn đang là số giả lập (mock) — cần bổ sung endpoint CO2 ở
    backend rồi thay đoạn mock đó sau.
    ========================================================= */
+   
+// async function fetchLatestData() {
+//   const res = await fetch(`${API_BASE_URL}/api/get-latest-real`);
+
+//   if (!res.ok) {
+//     throw new Error(`API trả về lỗi: ${res.status}`);
+//   }
+
+//   const json = await res.json();
+
+//   if (json.status !== 'success') {
+//     throw new Error(json.message || 'Không lấy được dữ liệu');
+//   }
+
+//   // TODO: chưa có endpoint CO2 thật ở backend -> tạm thời vẫn mock
+//   // const co2 = 20000 + Math.random() * 500;
+
+//   return { voltage: json.voltage, co2 };
+// }
+
 async function fetchLatestData() {
-  const res = await fetch(`${API_BASE_URL}/api/get-latest-real`);
-
-  if (!res.ok) {
-    throw new Error(`API trả về lỗi: ${res.status}`);
-  }
-
-  const json = await res.json();
-
-  if (json.status !== 'success') {
-    throw new Error(json.message || 'Không lấy được dữ liệu');
-  }
-
-  // TODO: chưa có endpoint CO2 thật ở backend -> tạm thời vẫn mock
-  const co2 = 20000 + Math.random() * 500;
-
-  return { voltage: json.voltage, co2 };
+  const { invoke } = window.__TAURI__.core;
+  const voltage = await invoke('get_latest_voltage'); // Rust trả về f64 trực tiếp
+  //const co2 = 20000 + Math.random() * 500; // vẫn mock như cũ
+  return { voltage };
 }
 
 function handleNewData(data) {

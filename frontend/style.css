@@ -112,6 +112,13 @@ body {
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
+.topbar__toggle {
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .search {
   display: flex;
   flex: 1;
@@ -141,13 +148,6 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-}
-
-.topbar__toggle {
-  border: none;
-  background: none;
-  font-size: 20px;
-  cursor: pointer;
 }
 
 .badge-btn {

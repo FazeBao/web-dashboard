@@ -1,64 +1,49 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+import sys
+import json
 import psycopg2
 
-app = Flask(__name__)
-CORS(app)  # Cho phép frontend (chạy ở origin/port khác) gọi được API này
-
-# Cấu hình kết nối PostgreSQL
 DB_CONFIG = {
-    "dbname": "test_iot_db",  # Sửa tên database của bạn vào đây
+    "dbname": "test_iot_db",
     "user": "test_iot",
-    "password": "123456789",  # Sửa mật khẩu user test_iot
-    "host": "45.119.87.151",  # Nếu DB chạy cùng máy với file Python này
-    "port": "5432"  # Port mặc định của PostgreSQL
+    "password": "123456789",
+    "host": "45.119.87.151",
+    "port": "5432"
 }
 
-@app.route('/api/get-latest-real', methods=['GET'])
 def get_latest_real():
     conn = None
     cursor = None
     try:
         conn = psycopg2.connect(**DB_CONFIG)
         cursor = conn.cursor()
-        
-        # Lấy giá trị cột "real" mới nhất. 
-        # LƯU Ý: Đang giả định bảng của bạn có cột 'id' tự động tăng. 
-        # Nếu bảng của bạn dùng cột thời gian, hãy đổi 'id' thành tên cột thời gian đó.
-        select_query = """
-            SELECT "real" 
-            FROM public."test_wifi" 
-            ORDER BY id DESC 
-            LIMIT 1
-        """
-        
-        cursor.execute(select_query)
-        result = cursor.fetchone() # Lấy 1 dòng kết quả đầu tiên
-        
+        cursor.execute(
+            'SELECT "real" FROM public."test_wifi" ORDER BY id DESC LIMIT 1'
+        )
+        result = cursor.fetchone()
         if result:
-            latest_value = result[0]
-            print(f"'voltage': {latest_value}")
-            return jsonify({
-                "status": "success", 
-                "voltage": latest_value
-            }), 200
+            return {"status": "success", "voltage": float(result[0])}
         else:
-            print("Bảng test_wifi hiện chưa có dữ liệu")
-            return jsonify({
-                "status": "error", 
-                "message": "Bảng test_wifi hiện chưa có dữ liệu"
-            }), 404
-
+            return {"status": "error", "message": "Bảng test_wifi chưa có dữ liệu"}
     except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
+        return {"status": "error", "message": str(e)}
     finally:
         if cursor is not None:
             cursor.close()
         if conn is not None:
             conn.close()
 
-if __name__ == '__main__':
-    # host='0.0.0.0' cho phép các thiết bị khác trong mạng LAN (ESP32) gọi được API này
-    # Nếu chỉ để '127.0.0.1' thì ESP32 sẽ không thể kết nối.
-    app.run(host='127.0.0.1', port=5000, debug=False)
+def main():
+    # Đọc lệnh liên tục từ stdin, mỗi dòng là 1 lệnh
+    for line in sys.stdin:
+        command = line.strip()
+
+        if command == "get_latest_voltage":
+            response = get_latest_real()
+        else:
+            response = {"status": "error", "message": f"Lệnh không hợp lệ: {command}"}
+
+        # In kết quả ra stdout dạng JSON, mỗi kết quả 1 dòng
+        print(json.dumps(response), flush=True)
+
+if __name__ == "__main__":
+    main()
